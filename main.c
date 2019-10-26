@@ -9,19 +9,19 @@
 #include "INFO_LCD.h"
 #include "keypad.h"
 
-#define NUMBEROFQUESTIONS 7
+#define NUMOFQUES 5
 #define ZERO 0
 #define DONE 3
 #define SCORING 2
 #define GONE 7
 
-typedef enum {
+typedef enum { //mapping with the keypad
 	APP_NO = 2,
 	APP_YES = 1,
 	APP_SKIP = 3,
 }answers_t;
 
-static answers_t answers[NUMBEROFQUESTIONS] = {APP_YES, APP_YES, APP_YES, APP_YES, APP_YES};
+static answers_t answers[NUMOFQUES+2] = {APP_YES, APP_YES, APP_YES, APP_YES, APP_YES,APP_YES, APP_YES };
 static uint8 g_key = NOT_INITIALIZED;
 static uint8 question_ptr = NOT_INITIALIZED;
 static uint8 score = NOT_READY;
@@ -46,7 +46,7 @@ static Flag_t next_question = ON;
 static Flag_t get_answer = OFF;
 static Flag_t answer_ready = OFF;
 
-static uint8 questions[NUMBEROFQUESTIONS][17] = {"WELCOME ^_^","do you have a car","are you creazy ?", "are you married ?", "are you happy ?","Do you love banana ?", "Score:"};
+static uint8 questions[NUMOFQUES+2][17] = {"WELCOME ^_^","do you have a car","are you creazy ?", "are you married ?", "are you happy ?","Do you love banana ?", "Score:"};
 
 void QuestionDisplayTask(void)
 {
@@ -87,7 +87,7 @@ void QuestionDisplayTask(void)
 					get_answer = ON;
 					Question_Disp = PENDING;
 					LOC_ClearStatus=PENDING;
-					if(NUMBEROFQUESTIONS == question_ptr){
+					if(NUMOFQUES+2 == question_ptr){
 						question_ptr = ZERO;
 						get_answer = STOP;
 					}
