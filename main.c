@@ -39,7 +39,7 @@ static Flag_t get_answer = OFF;
 static Flag_t answer_ready = OFF;
 
 /********************************** Task1: display questions on LCD **********************************************/
-void QuestionDisplayTask(void)  
+void QuestionDisplay_Task(void)  
 {
 	Enum_LCDState LCD_Status = LCD_Pending;
 	static Flag_t LOC_ClearStatus = OFF;
@@ -67,7 +67,7 @@ void QuestionDisplayTask(void)
 			}
 			if(Question_Disp == ON)
 			{
-				LCD_Status = LCD_displayStringRowColumn("1.Yes 2.No 3.Skp", 1u, 0u);
+				LCD_Status = LCD_displayStringRowColumn("1 = ^_^ 2 = -_- 3 = Skp", 1, 0);
 				if(LCD_Status == LCD_Finished)
 				{
 					question_ptr++;
@@ -88,7 +88,7 @@ void QuestionDisplayTask(void)
 }
 
 /********************************** Task2: reads the answers from the user **********************************************/
-void GetAnswerTask(void){
+void GetAnswer_Task(void){
 
 	Enum_KEYPADState state = PENDING;
 	if(get_answer == ON)
@@ -104,7 +104,7 @@ void GetAnswerTask(void){
 }
 
 /********************************** Task3: calculta the user score **********************************************/
-void AnswerCheckTask(void)
+void AnswerCheck_Task(void)
 {
 	if (answer_ready == ON)
 	{
@@ -121,7 +121,7 @@ void AnswerCheckTask(void)
 }
 
 /********************************** Task3: display the result to the user **********************************************/
-void ScoreDisplay(void){
+void ScoreDisplay_Task(void){
 	static uint8 status = PENDING;
 	static Flag_t LCD_gotoState = OFF;
 	if(get_answer == STOP){
@@ -154,10 +154,10 @@ int main(void)
 	StrTask_t LCD_initTask={LCD_init,0,2};
 		
 	/* tasks*/
-	StrTask_t Display_Question = {QuestionDisplayTask,0,2};
-	StrTask_t Get_Answer={GetAnswerTask,0,200};
-	StrTask_t Score_Update={AnswerCheckTask,0,20};
-	StrTask_t Score_Display={ScoreDisplay,0,2};
+	StrTask_t Display_Question = {QuestionDisplay_Task,0,2};
+	StrTask_t Get_Answer={GetAnswer_Task,0,200};
+	StrTask_t Score_Update={AnswerCheck_Task,0,20};
+	StrTask_t Score_Display={ScoreDisplay_Task,0,2};
 
 	SOS_CreateTask(&KEYPAD_initTask);
 	SOS_CreateTask(&LCD_initTask);
